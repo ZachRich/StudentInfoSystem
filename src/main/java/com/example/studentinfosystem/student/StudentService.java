@@ -29,10 +29,10 @@ public class StudentService {
 
     public void addNewStudent(Student student) {
 
-        Optional<Student> studentOptional = studentRepository.findByEmail(student.getEmail());
+        boolean studentOptional = studentRepository.findByEmail(student.getEmail());
 
-        if(studentOptional.isPresent()) {
-            throw new IllegalStateException("Email is Taken");
+        if(studentOptional == true) {
+            throw new IllegalStateException("Email " + student.getEmail() +  " has Been Taken");
         }
 
         studentRepository.save(student);
@@ -58,9 +58,9 @@ public class StudentService {
         }
 
         if(email != null && email.length() > 0 && !Objects.equals(student.getEmail(), email)) {
-            Optional<Student> studentOptional = studentRepository.findByEmail(email);
-            if(studentOptional.isPresent()) {
-                throw new IllegalStateException("Email Has Been Taken");
+            boolean studentOptional = studentRepository.findByEmail(email);
+            if(studentOptional == true) {
+                throw new IllegalStateException("Email " + student.getEmail() +  " has Been Taken");
             }
             student.setEmail(email);
         }
